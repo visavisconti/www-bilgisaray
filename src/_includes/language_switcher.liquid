@@ -1,0 +1,84 @@
+{%- comment -%}
+This language switcher uses:
+1. `languages`: A global array of language objects { code, label, direction }.
+2. `locale`: The current page's locale code (from frontmatter).
+3. `defaultLanguageCode`: A global string for the default language code.
+4. `page.url`: The current page's full output URL (e.g., /en/about/).
+It constructs target URLs by replacing or prefixing locale parts of the current page's URL.
+This version has been iterated to fix Liquid parsing errors.
+{%- endcomment -%}
+{%- if languages and languages.length > 1 -%}
+<nav aria-label="Language switcher">
+  <p>Languages:</p> <!-- i18n-TODO: Translate 'Languages:' -->
+  <ul class="language-switcher" style="list-style: none; padding: 0; margin: 0;">
+    {%- for lang_info in languages %}
+    {%- assign current_url = page.url -%}
+    {%- assign current_page_locale = locale | default: defaultLanguageCode -%} {# Ensure locale has a fallback #}
+    {%- assign target_lang_code = lang_info.code -%}
+
+    {%- assign current_locale_prefix_slash = '/' | append: current_page_locale | append: '/' -%}
+    {%- assign current_locale_prefix_noslash_at_end = '/' | append: current_page_locale -%}
+    {%- assign target_locale_prefix_slash = '/' | append: target_lang_code | append: '/' -%}
+
+    {%- assign target_url = '' -%}
+
+    {%- comment %} Case 1: Current URL is the root of the current locale (e.g. /en/ or /en) {% endcomment %}
+    {%- if current_url == current_locale_prefix_slash or current_url == current_locale_prefix_noslash_at_end -%}
+      {%- assign target_url = target_locale_prefix_slash -%}
+    {%- else -%}
+      {%- comment %} Try Case 2: Current URL starts with the locale prefix (e.g. /en/about/) {% endcomment %}
+      {%- assign slice_to_check_case2 = current_url | slice: 0, current_locale_prefix_slash.size -%}
+      {%- if slice_to_check_case2 == current_locale_prefix_slash -%}
+        {%- assign path_without_locale = current_url | remove_first: current_locale_prefix_slash -%}
+        {%- assign target_url = target_locale_prefix_slash | append: path_without_locale -%}
+      {%- else -%}
+        {%- comment %} Try Case 3: Current page is in default language, and its URL might not have the locale prefix {% endcomment %}
+        {%- if current_page_locale == defaultLanguageCode -%}
+          {%- assign is_root_url_case3 = false -%}
+          {%- if current_url == '/' -%}
+              {%- assign is_root_url_case3 = true -%}
+          {%- endif -%}
+
+          {%- assign segments_case3 = current_url | split: '/' -%}
+          {%- assign is_simple_slug_case3 = false -%}
+          {%- if segments_case3.size == 2 and segments_case3[0] == "" and segments_case3[1] != "" -%}
+              {%- assign is_simple_slug_case3 = true -%}
+          {%- endif -%}
+
+          {%- if is_root_url_case3 -%}
+            {%- assign target_url = target_locale_prefix_slash -%}
+          {%- elsif is_simple_slug_case3 -%}
+            {%- assign path_slug_case3 = current_url | remove_first: '/' -%}
+            {%- assign target_url = target_locale_prefix_slash | append: path_slug_case3 | append: '/' -%}
+          {%- else -%} 
+            {%- assign path_slug_case3 = current_url | remove_first: '/' -%}
+            {%- assign target_url = target_locale_prefix_slash | append: path_slug_case3 -%}
+            {%- assign last_char = target_url | slice: -1 -%}
+            {%- unless last_char == '/' -%}{%- assign target_url = target_url | append: '/' -%}{%- endunless -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- comment %} Fallback: If none of the above, just link to the root of the target language (safer) {% endcomment %}
+          {%- assign target_url = target_locale_prefix_slash -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if lang_info.code == current_page_locale %}
+    <li style="display: inline; margin-right: 10px;">
+      <a href="{{ target_url | url }}" hreflang="{{ lang_info.code }}" aria-current="page" style="text-decoration: none;">
+        <strong>{{ lang_info.label }} ({{ lang_info.code }})</strong>
+      </a>
+    </li>
+    {%- else %}
+    <li style="display: inline; margin-right: 10px;">
+      <a href="{{ target_url | url }}" hreflang="{{ lang_info.code }}" style="text-decoration: none;">
+        {{ lang_info.label }} ({{ lang_info.code }})
+      </a>
+    </li>
+    {%- endif %}
+    {%- endfor %}
+  </ul>
+</nav>
+{%- else -%}
+<!-- Language switcher not shown: `languages` global data missing, has less than 2 languages, or `locale` for current page is not set. Language count: {{ languages.length }}, Current Locale: {{ locale }} -->
+{%- endif -%}
