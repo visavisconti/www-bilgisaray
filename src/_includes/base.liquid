@@ -4,7 +4,7 @@
     <meta charset="utf-8">
   	<meta name='viewport' content='width=device-width'>
 
-    <title>{{ site.title }}</title>
+    <title>{{ title | default: site.title }}</title>
     <meta name='description' content={{ site.description }}>
     <meta name="theme-color" content="#ffffff"/>
 
@@ -26,6 +26,7 @@
   </head>
 
   <body class="dark:text-white dark:bg-black">
+    {% include "language_switcher.liquid" %}
     {{ content }}
     
   <script>

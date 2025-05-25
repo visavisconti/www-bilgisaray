@@ -9,19 +9,30 @@ layout: main
 </p>
 
 <div>
-    <em>{{ date | date: "%Y-%m-%d" }}</em> &middot; 
-    <span>{{ content | readTime }} min read</span>
+    <em>{{ date | date: "%Y-%m-%d" }}</em> &middot; <!-- i18n-TODO: Review date format for different locales -->
+    <span>{{ content | readTime }} min read</span> <!-- i18n-TODO: Translate 'min read' -->
 </div>
 
-<div class="mt-3 pb-10">
-  {% for tag in tags %}
-    {% if tag != "posts" %}
-      <a href="/tags/{{ tag }}">
-        <span class="post-tag">{{ tag }}</span>
-      </a>
-    {% endif %}
-  {% endfor %}
+{%- comment %}
+Assumes 'tags' is an array of strings from front matter.
+The 'url' filter, combined with pathTransform, should handle localization of '/tags/...' URLs.
+{% endcomment %}
+{%- if tags and tags.size > 0 %}
+  <div class="tags" style="margin-top: 20px;">
+    <p><strong><!-- i18n-TODO: Translate 'Tags:' -->Tags:</strong>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      {%- for tag_item in tags %}
+        {%- if tag_item and tag_item != "posts" and tag_item != "all" %}
+          {%- assign tag_slug = tag_item | slugify %} {# Ensure the tag is URL-safe #}
+          <li style="display: inline; margin-right: 5px;">
+            <a href="{{ '/' | append: locale | append: '/tags/' | append: tag_slug | append: '/' | url }}">{{ tag_item }}</a>
+          </li>
+        {%- endif %}
+      {%- endfor %}
+    </ul>
+    </p>
   </div>
+{%- endif %}
 
 <div class="prose dark:prose-invert hover:prose-a:text-blue-500">
   {{ content }}
