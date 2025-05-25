@@ -1,6 +1,8 @@
 ---
 layout: default
-title: This is me.
+title: This is us.
 ---
 
-She/her. A software person. Singapore.
+self-financed and self-organized community (de)center in Oranienstr. 45, Berlin
+
+{% asset_img 'front.jpg' 'front' %}
