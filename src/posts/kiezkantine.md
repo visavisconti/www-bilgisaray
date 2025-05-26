@@ -1,0 +1,11 @@
+---
+title: Kiezkantine
+date: 2020-07-01
+# published: false
+tags:
+- kiezkantine
+---
+
+<!-- excerpt -->
+{% asset_img 'inside.JPG' '1' %}
+{% asset_img 'outside.JPG' '2' %}
