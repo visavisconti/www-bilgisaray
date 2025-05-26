@@ -5,6 +5,7 @@ pagination:
   size: 1
   alias: tag
 permalink: /tags/{{ tag }}/
+locale: en
 eleventyComputed:
   title: "{{ tag }}"
 ---  

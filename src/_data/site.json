@@ -5,5 +5,12 @@
     "description": "Welcome to my blog",
     "github": "https://github.io/kohrongying",
     "twitter": "",
-    "linkedin": "https://www.linkedin.com/in/rongyingkoh/"
+    "linkedin": "https://www.linkedin.com/in/rongyingkoh/",
+    "languages": [
+        { "code": "en", "label": "English", "direction": "ltr" },
+        { "code": "de", "label": "Deutsch", "direction": "ltr" },
+        { "code": "fr", "label": "Français", "direction": "ltr" },
+        { "code": "ar", "label": "العربية", "direction": "rtl" }
+    ],
+    "defaultLanguageCode": "en"
 }

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Tags
+locale: en
 ---
 
 {% for tag in collections.tagList %}

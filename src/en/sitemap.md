@@ -1,6 +1,7 @@
 ---
 permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
+locale: en
 ---
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {% for page in collections.all %}

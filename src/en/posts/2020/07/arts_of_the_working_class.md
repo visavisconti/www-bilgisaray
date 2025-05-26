@@ -3,6 +3,7 @@ title: Arts of the Working Class
 date: 2020-07-01
 tags:
 - press
+locale: en
 ---
 ### _“Commons are defined by the existence of a shared property, in the form of a shared natural or social wealth—lands, waters, forests, systems of knowledge, capacities for care—to be used by all commoners, without any distinction.”_
 
