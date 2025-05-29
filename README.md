@@ -55,10 +55,6 @@ npm start
 
 
 ## Deployment
-[<img src="https://www.netlify.com/img/deploy/button.svg" />](
-https://app.netlify.com/start/deploy?repository=https://github.com/kohrongying/11ty-blog-starter)
-
-
 
 On Netlify / Surge / Firebase hosting / etc hosting providers
 
