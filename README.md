@@ -1,6 +1,6 @@
 # Blog
 
-View the demo [here](https://o45.vercel.com)
+View the demo [here](https://o45.vercel.app)
 
 ## Aims
 A blog that still runs without javascript. Hence, no bundlers. 
