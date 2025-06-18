@@ -1,8 +1,6 @@
-# Blog starter
+# Blog
 
-View the demo [here](https://eleventy.rongying.co/), hosted on Netlify
-
-![homepage](blog-v2.png)
+View the demo [here](https://o45.vercel.com)
 
 ## Aims
 A blog that still runs without javascript. Hence, no bundlers. 
